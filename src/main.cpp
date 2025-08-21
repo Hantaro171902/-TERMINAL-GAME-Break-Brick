@@ -12,13 +12,13 @@ int main() {
     game.setup();
     
     while (game.life > 0) {
-        game.render();
         game.layout();
+        game.render();
         game.input();
         game.update();
         
-        // Add a small delay to control game speed
-        sleep_ms(100);
+        // Smaller delay for smoother movement (~60 FPS)
+        sleep_ms(16);
     }
     
     game.gameOver();

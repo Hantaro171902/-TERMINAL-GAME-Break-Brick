@@ -16,6 +16,7 @@ set(SOURCES
     src/ball.cpp
     src/paddle.cpp
     src/color.cpp
+    src/cursor_input.cpp
 )
 
 set(HEADERS
@@ -25,6 +26,7 @@ set(HEADERS
     src/headers/paddle.hpp
     src/headers/ball.hpp
     src/headers/color.hpp
+    src/headers/cursor_input.hpp
 )
 
 # Exe

@@ -2,14 +2,21 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <locale>
+
+using namespace std;
 
 Game::Game(int w, int h) : screenWidth(w), screenHeight(h), life(5) {
-    map.assign(screenHeight, std::vector<int>(screenWidth, 0));
+    map.assign(screenHeight, vector<int>(screenWidth, 0));
 }
 
 void Game::setup() {
     srand((unsigned)time(nullptr));
     hideCursor();
+
+    // Ensure UTF-8 so box drawing symbols render correctly
+    setlocale(LC_ALL, "");
+
     paddle.width = 9;
     paddle.speed = 1;
     paddle.reset(screenWidth / 2, screenHeight - screenHeight / 7 - 1);
@@ -46,8 +53,8 @@ void Game::drawBall() {
 }
 
 void Game::drawBricks() {
-    for (int r = 0; r < grid.rows; ++r) {
-        for (int c = 0; c < grid.cols; ++c) {
+    for (int r = 0; r < Board::rows; ++r) {
+        for (int c = 0; c < Board::cols; ++c) {
             if (grid.bricks[r][c]) {
                 int gx = grid.offsetX + c;
                 int gy = grid.offsetY + r;
@@ -95,23 +102,20 @@ bool Game::handleBallCollision(int nextX, int nextY) {
 }
 
 void Game::input() {
-    if (kbhit()) {
-        int ch = getch();
-        // Windows arrow keys come as 224 then code; on Linux we may get escape sequences.
-        if (ch == 27) { // ESC sequence
-            if (kbhit()) {
-                getch(); // '['
-                int code = getch();
-                if (code == 'D') paddle.moveLeft(1); // left
-                else if (code == 'C') paddle.moveRight(screenWidth - 1); // right
-            }
-        } else if (ch == 75) {
+    InputKey key = getInputKey();
+    switch (key) {
+        case InputKey::LEFT:
             paddle.moveLeft(1);
-        } else if (ch == 77) {
+            break;
+        case InputKey::RIGHT:
             paddle.moveRight(screenWidth - 1);
-        } else if (ch == 'q' || ch == 'Q') {
+            break;
+        case InputKey::Q:
+        case InputKey::ESC:
             life = 0;
-        }
+            break;
+        default:
+            break;
     }
 }
 
@@ -134,26 +138,32 @@ void Game::update() {
 }
 
 void Game::render() {
+    clearScreen();
     move_cursor(2, 1);
-    std::cout << "LIFE: " << life;
+    cout << "LIFE: " << life;
 
     for (int i = 0; i < screenHeight; ++i) {
         for (int j = 0; j < screenWidth; ++j) {
             move_cursor(j + 2, i + 3);
             int v = map[i][j];
-            if (v == 9 || v == 7) std::cout << (char)219;
-            else if (v == 8) std::cout << (char)240;
-            else if (v == 1) std::cout << (char)219;
-            else if (v == 2) std::cout << (char)233;
-            else if (v == 5) std::cout << (char)254;
-            else std::cout << ' ';
+            if (i == 0 && j == 0) { cout << SYMBOL_TOP_LEFT; continue; }
+            if (i == 0 && j == screenWidth - 1) { cout << SYMBOL_TOP_RIGHT; continue; }
+            if (i == screenHeight - 1 && j == 0) { cout << SYMBOL_BOTTOM_LEFT; continue; }
+            if (i == screenHeight - 1 && j == screenWidth - 1) { cout << SYMBOL_BOTTOM_RIGHT; continue; }
+
+            if (v == 9) cout << SYMBOL_VERTICAL;
+            else if (v == 7 || v == 8) cout << SYMBOL_HORIZONTAL;
+            else if (v == 1) cout << BLOCK_FULL;
+            else if (v == 2) cout << BLOCK_HALF;
+            else if (v == 5) cout << BLOCK_FULL;
+            else cout << ' ';
         }
     }
 }
 
 void Game::gameOver() {
     clearScreen();
-    std::cout << " GAMEOVER ";
+    cout << " GAMEOVER ";
 }
 
 
