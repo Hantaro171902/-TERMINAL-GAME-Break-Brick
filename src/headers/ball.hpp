@@ -2,20 +2,21 @@
 
 class Ball {
 public:
-    int x;
-    int y;
-    int dx;
-    int dy;
-    int speed;
+    int x, y, speed, dir;
 
-    Ball() : x(0), y(0), dx(1), dy(-1), speed(1) {}
+    Ball();
 
-    void reset(int startX, int startY, int dirX, int dirY) {
-        x = startX;
-        y = startY;
-        dx = dirX;
-        dy = dirY;
-    }
+    // void reset(int startX, int startY, int dirX, int dirY) {
+    //     x = startX;
+    //     y = startY;
+    //     dx = dirX;
+    //     dy = dirY;
+    // }
+
+    void draw();
+    void move();
+    bool collision(int fx, int fy);
+    void bounce(int fx, int fy);
 };
 
 

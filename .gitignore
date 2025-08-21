@@ -35,3 +35,6 @@ breakBrick
 
 # --- Asset Cache ---
 assets/cache/
+
+# --- Draw.io ---
+*.drawio
