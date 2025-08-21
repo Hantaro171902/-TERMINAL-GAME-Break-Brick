@@ -7,7 +7,7 @@
 void clearScreen();
 void clearTerminal(); // Full terminal reset
 
-void setTextColor(int color);
+// void setTextColor(int color);
 void hideCursor();
 void showCursor();
 
