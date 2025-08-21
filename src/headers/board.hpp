@@ -1,26 +1,21 @@
 #pragma once
-#include "game.hpp"
 #include <vector>
 
-class Board {
-private: 
-    static const char* heart[] = {
-        "..#####...#####..",
-        ".#######.#######.",
-        ".###############.",
-        "..#############..",
-        "....#########....",
-        "......#####......",
-        "........#........"
-    };
-
-    int rows = 7;
-    int cols = 15;
-
+class Board {    
 public:
+    static const char* heart[7];
+    static const int rows = 7;
+    static const int cols = 17;
+
+    int offsetX = 6;
+    int offsetY = 2;
+    std::vector<std::vector<bool>> bricks;
+
+    Board();
+    void loadHeartPattern();
+    void hitAt(int x, int y);
     void brick();
     void wall();
-    void heart();
     void layout();
     void display();
 };

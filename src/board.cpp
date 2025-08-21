@@ -1,74 +1,58 @@
 #include "board.hpp"
-#include "paddle.hpp"
-#include "ball.hpp"
-#include "game.hpp"
-#include "ultils.hpp"
 #include <iostream>
 
-using namespace std;
+// Define the static heart pattern
+const char* Board::heart[7] = {
+    "..#####...#####..",
+    ".#######.#######.",
+    ".###############.",
+    "..#############..",
+    "....#########....",
+    "......#####......",
+    "........#........"
+};
 
-Paddle paddle;
-Ball ball;
+Board::Board() {
+    bricks.resize(rows, std::vector<bool>(cols, false));
+    loadHeartPattern();
+}
 
-void Board::heart() {
-
+void Board::loadHeartPattern() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            bricks[i][j] = (heart[i][j] == '#') ? 1 : 0;
+            if (heart[i][j] == '#') {
+                bricks[i][j] = true;
+            }
         }
+    }
+}
+
+void Board::hitAt(int x, int y) {
+    int gridX = x - offsetX;
+    int gridY = y - offsetY;
+    if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
+        bricks[gridY][gridX] = false;
     }
 }
 
 void Board::brick() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if (bricks[i][j] == 1) {
-                Game.map[i + 2][j + 6] = 2; // Adjusting position for rendering
+            if (bricks[i][j]) {
+                // This will be handled by the Game class drawing
             }
         }
     }
 }
 
 void Board::wall() {
-    for (int i = 0; i < Game.screenHeight; i++) {
-        for (int j = 0; j < Game.screenWidth; j++) {
-            if (j == 0 || j == Game.screenWidth - 1) Game.map[i][j] = 9;
-            else if (i == 0) map[i][j] = 7;
-            else if (i == Game.screenHeight - 1) Game.map[i][j] = 8;
-            else Game.map[i][j] = 0;
-        }
-    }
+    // Wall drawing is handled by Game class
 }
 
 void Board::layout() {
-    wall();
-    paddle.draw();
-    ball.draw();
-    brick();
+    // Layout is handled by Game class
 }
 
 void Board::display() {
-    gotoxy(2, 1);
-    cout << "LIFE: " << Game.life;
-
-    // 9 = side wall
-    // 7 = top wall
-    // 8 = score wall
-    // 1 = paddle
-    // 5 = ball
-    // 2 = bricks
-    // 0 = blanks
-
-    for (int i = 0; i < Game.screenHeight; i++) {
-        for (int j = 0; j < Game.screenWidth; j++) {
-            gotoxy(j + 2, i + 3);
-            if (Game.map[i][j] == 9) cout << char(219);
-            if (Game.map[i][j] == 1) cout << char(219);
-            if (Game.map[i][j] == 2) cout << char(233);
-            if (Game.map[i][j] == 7) cout << char(219);
-            if (Game.map[i][j] == 8) cout << char(240);
-            if (Game.map[i][j] == 5) cout << char(254);
-            if (Game.map[i][j] == 0) cout << char(32);
-        }
-    }
+    // Display is handled by Game class
 }

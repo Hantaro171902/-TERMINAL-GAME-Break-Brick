@@ -3,15 +3,11 @@
 class Ball {
 public:
     int x, y, speed, dir;
+    int dx, dy;  // Direction vectors
 
     Ball();
 
-    // void reset(int startX, int startY, int dirX, int dirY) {
-    //     x = startX;
-    //     y = startY;
-    //     dx = dirX;
-    //     dy = dirY;
-    // }
+    void reset(int startX, int startY, int dirX, int dirY);
 
     void draw();
     void move();
