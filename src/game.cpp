@@ -1,4 +1,4 @@
-#include "headers/game.hpp"
+#include "game.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
