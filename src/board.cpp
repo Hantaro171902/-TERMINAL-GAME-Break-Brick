@@ -2,14 +2,14 @@
 #include <iostream>
 
 // Define the static heart pattern
-const char* Board::heart[7] = {
-    "..#####...#####..",
-    ".#######.#######.",
-    ".###############.",
-    "..#############..",
-    "....#########....",
+const char* Board::skull[7] = {
+    "...###########...",
+    ".###..#####..###.",
+    ".##....###....##.",
+    "..##..#####..##..",
+    "...####...####...",
     "......#####......",
-    "........#........"
+    "......#.#.#......"
 };
 
 Board::Board() {
@@ -20,7 +20,7 @@ Board::Board() {
 void Board::loadHeartPattern() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if (heart[i][j] == '#') {
+            if (skull[i][j] == '#') {
                 bricks[i][j] = true;
             }
         }

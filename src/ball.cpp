@@ -1,9 +1,10 @@
 #include "ball.hpp"
-#include <cstdlib>
-#include <ctime>
+#include "utils.hpp"
+#include <iostream>
 
-Ball::Ball() : x(0), y(0), speed(1), dir(0) {
-}
+using namespace std;
+
+Ball::Ball(int startX, int startY) : GameObject(startX, startY), speed(1), dx(1), dy(-1) {}
 
 void Ball::reset(int startX, int startY, int dirX, int dirY) {
     x = startX;
@@ -12,19 +13,20 @@ void Ball::reset(int startX, int startY, int dirX, int dirY) {
     dy = dirY;
 }
 
+void Ball::update() {
+    x += dx * speed;
+    y += dy * speed;
+}
+
 void Ball::draw() {
-    // Drawing is handled by Game class
+    move_cursor(x, y);
+    cout << 'o';
 }
 
-void Ball::move() {
-    // Movement is handled by Game class with collision detection
+void Ball::bounceX() {
+    dx *= -1;
 }
 
-bool Ball::collision(int fx, int fy) {
-    // Collision detection is handled by Game class
-    return false;
-}
-
-void Ball::bounce(int fx, int fy) {
-    // Bounce logic is handled by Game class
+void Ball::bounceY() {
+    dy *= -1;
 }

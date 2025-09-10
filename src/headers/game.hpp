@@ -4,7 +4,7 @@
 #include "paddle.hpp"
 #include "ball.hpp"
 #include "board.hpp"
-#include "ultils.hpp"
+#include "utils.hpp"
 #include "cursor_input.hpp"
 
 class Game {

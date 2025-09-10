@@ -1,5 +1,5 @@
 #include "cursor_input.hpp"
-#include "ultils.hpp"
+#include "utils.hpp"
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>

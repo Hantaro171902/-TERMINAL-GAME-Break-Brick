@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "color.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -6,7 +7,13 @@
 
 using namespace std;
 
-Game::Game(int w, int h) : screenWidth(w), screenHeight(h), life(5) {
+Game::Game(int w, int h)
+    : screenWidth(w),
+      screenHeight(h),
+      life(5),
+      paddle(w / 2, h - h / 7 - 1, w),   // Provide initial values
+      ball(w / 2, h - h / 7 - 2)         // Provide initial values
+{
     map.assign(screenHeight, vector<int>(screenWidth, 0));
 }
 
@@ -14,7 +21,9 @@ void Game::setup() {
     srand((unsigned)time(nullptr));
     hideCursor();
 
-    // Ensure UTF-8 so box drawing symbols render correctly
+    // Faster I/O and proper UTF-8 symbols
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
     setlocale(LC_ALL, "");
 
     paddle.width = 9;
@@ -27,6 +36,9 @@ void Game::setup() {
     ball.reset(screenWidth / 2, screenHeight - screenHeight / 7 - 2, dirX, dirY);
 
     grid.loadHeartPattern();
+
+    // Clear once at start
+    clearScreen();
 }
 
 void Game::drawWalls() {
@@ -138,27 +150,54 @@ void Game::update() {
 }
 
 void Game::render() {
-    clearScreen();
-    move_cursor(2, 1);
-    cout << "LIFE: " << life;
+    // Move cursor home and draw a single buffered frame to minimize I/O
+    static const char* HOME = "\033[H";
+
+    string frame;
+    frame.reserve(static_cast<size_t>((screenWidth + 4) * (screenHeight + 4)) * 3);
+
+    cout << HOME;
+
+    // setTextColor(YELLOW);
+    // cout << R"(
+    //     ┏┓ ┏━┓┏━╸┏━┓╻┏    ┏━┓╻┏ ╻ ╻╻  ╻  
+    //     ┣┻┓┣┳┛┣╸ ┣━┫┣┻┓   ┗━┓┣┻┓┃ ┃┃  ┃  
+    //     ┗━┛╹┗╸┗━╸╹ ╹╹ ╹   ┗━┛╹ ╹┗━┛┗━╸┗━╸
+    // )";
+    // resetTextColor();
+    
+
+    frame += "LIFE: ";
+    frame += to_string(life);
+    frame += '\n';
+    frame += '\n';
+
+    cout << frame << fflush;
 
     for (int i = 0; i < screenHeight; ++i) {
+        frame += "  "; // left padding
         for (int j = 0; j < screenWidth; ++j) {
-            move_cursor(j + 2, i + 3);
             int v = map[i][j];
-            if (i == 0 && j == 0) { cout << SYMBOL_TOP_LEFT; continue; }
-            if (i == 0 && j == screenWidth - 1) { cout << SYMBOL_TOP_RIGHT; continue; }
-            if (i == screenHeight - 1 && j == 0) { cout << SYMBOL_BOTTOM_LEFT; continue; }
-            if (i == screenHeight - 1 && j == screenWidth - 1) { cout << SYMBOL_BOTTOM_RIGHT; continue; }
+            if (i == 0 && j == 0) { frame += SYMBOL_DOUBLE_TOP_LEFT; continue; }
+            if (i == 0 && j == screenWidth - 1) { frame += SYMBOL_DOUBLE_TOP_RIGHT; continue; }
+            if (i == screenHeight - 1 && j == 0) { frame += SYMBOL_DOUBLE_BOTTOM_LEFT; continue; }
+            if (i == screenHeight - 1 && j == screenWidth - 1) { frame += SYMBOL_DOUBLE_BOTTOM_RIGHT; continue; }
 
-            if (v == 9) cout << SYMBOL_VERTICAL;
-            else if (v == 7 || v == 8) cout << SYMBOL_HORIZONTAL;
-            else if (v == 1) cout << BLOCK_FULL;
-            else if (v == 2) cout << BLOCK_HALF;
-            else if (v == 5) cout << BLOCK_FULL;
-            else cout << ' ';
+            if (v == 9) frame += SYMBOL_DOUBLE_VERTICAL;
+            else if (v == 7 || v == 8) frame += SYMBOL_DOUBLE_HORIZONTAL;
+            else if (v == 1) frame += BLOCK_RECT;       // paddle
+            else if (v == 2) {
+                frame += "\033[31m";
+                frame += BLOCK_HALF; 
+                frame += "\033[0m";
+            }       // skull
+            else if (v == 5) frame += 'o';              // ball
+            else frame += ' ';
         }
+        frame += '\n';
     }
+
+    cout << HOME << frame << flush;
 }
 
 void Game::gameOver() {

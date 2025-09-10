@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Set source and header files
 set(SOURCES
     src/main.cpp
-    src/ultils.cpp
+    src/utils.cpp
     src/board.cpp
     src/game.cpp
     src/ball.cpp
@@ -21,7 +21,7 @@ set(SOURCES
 
 set(HEADERS
     src/headers/game.hpp
-    src/headers/ultils.hpp
+    src/headers/utils.hpp
     src/headers/board.hpp
     src/headers/paddle.hpp
     src/headers/ball.hpp

@@ -1,5 +1,5 @@
 // ultils.cpp
-#include "ultils.hpp"
+#include "utils.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
@@ -194,3 +194,4 @@ const char SYMBOL_DOUBLE_INTERSECT[]    = "\u256C"; // ╬
 
 const char BLOCK_FULL[]   = "\u2588"; // █
 const char BLOCK_HALF[]   = "\u2592"; // ▒
+const char BLOCK_RECT[]   = "\u2585"; // ▅

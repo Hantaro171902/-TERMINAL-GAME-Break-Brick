@@ -1,6 +1,6 @@
 #include <iostream>
 #include "game.hpp"
-#include "ultils.hpp"
+#include "utils.hpp"
 
 int main() {
     const int screenWidth = 30;
@@ -18,7 +18,7 @@ int main() {
         game.update();
         
         // Smaller delay for smoother movement (~60 FPS)
-        sleep_ms(16);
+        sleep_ms(30);
     }
     
     game.gameOver();

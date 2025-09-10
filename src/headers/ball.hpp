@@ -1,18 +1,20 @@
 #pragma once
 
-class Ball {
-public:
-    int x, y, speed, dir;
-    int dx, dy;  // Direction vectors
+#include "game_object.hpp"
 
-    Ball();
+class Ball : public GameObject {
+public:
+    int dx, dy;
+    int speed;
+
+    Ball(int startX, int startY);
 
     void reset(int startX, int startY, int dirX, int dirY);
+    void update() override;
+    void draw() override;
+    void bounceX();
+    void bounceY();
 
-    void draw();
-    void move();
-    bool collision(int fx, int fy);
-    void bounce(int fx, int fy);
+    int getNextX() const { return x + dx; }
+    int getNextY() const { return y + dy; }
 };
-
-
