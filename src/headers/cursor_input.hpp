@@ -1,5 +1,7 @@
 #pragma once
-
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
 // Input control keys
 // const int KEY_UP = 65;    // Arrow Up
 // const int KEY_DOWN = 66;  // Arrow Down
@@ -30,4 +32,7 @@ enum class InputKey {
 // };
 
 // void playSound(SoundEffect effect);
+void setTerminalNonBlocking();
+void restoreTerminalBlocking();
+
 InputKey getInputKey();

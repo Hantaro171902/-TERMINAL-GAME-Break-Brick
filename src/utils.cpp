@@ -192,6 +192,12 @@ const char SYMBOL_DOUBLE_T_TOP[]        = "\u2566"; // ╦
 const char SYMBOL_DOUBLE_T_BOTTOM[]     = "\u2569"; // ╩
 const char SYMBOL_DOUBLE_INTERSECT[]    = "\u256C"; // ╬
 
+// Block characters
 const char BLOCK_FULL[]   = "\u2588"; // █
 const char BLOCK_HALF[]   = "\u2592"; // ▒
 const char BLOCK_RECT[]   = "\u2585"; // ▅
+
+// Ball characters
+const char* BALL_SOLID    = "\u25CF"; // ●
+const char* BALL_HOLLOW   = "\u25CB"; // ○
+const char* BALL_BULLSEYE = "\u25CE"; // ◎

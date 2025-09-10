@@ -52,3 +52,7 @@ extern const char SYMBOL_DOUBLE_INTERSECT[];
 extern const char BLOCK_FULL[];
 extern const char BLOCK_HALF[];
 extern const char BLOCK_RECT[];
+
+extern const char* BALL_SOLID;
+extern const char* BALL_HOLLOW;
+extern const char* BALL_BULLSEYE;

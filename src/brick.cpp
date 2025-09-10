@@ -1,8 +1,8 @@
-#include "board.hpp"
+#include "brick.hpp"
 #include <iostream>
 
 // Define the static heart pattern
-const char* Board::skull[7] = {
+const char* Brick::skull[7] = {
     "...###########...",
     ".###..#####..###.",
     ".##....###....##.",
@@ -12,12 +12,12 @@ const char* Board::skull[7] = {
     "......#.#.#......"
 };
 
-Board::Board() {
+Brick::Brick() {
     bricks.resize(rows, std::vector<bool>(cols, false));
-    loadHeartPattern();
+    loadPattern();
 }
 
-void Board::loadHeartPattern() {
+void Brick::loadPattern() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             if (skull[i][j] == '#') {
@@ -27,7 +27,7 @@ void Board::loadHeartPattern() {
     }
 }
 
-void Board::hitAt(int x, int y) {
+void Brick::hitAt(int x, int y) {
     int gridX = x - offsetX;
     int gridY = y - offsetY;
     if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
@@ -35,7 +35,7 @@ void Board::hitAt(int x, int y) {
     }
 }
 
-void Board::brick() {
+void Brick::brick() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             if (bricks[i][j]) {
@@ -45,14 +45,3 @@ void Board::brick() {
     }
 }
 
-void Board::wall() {
-    // Wall drawing is handled by Game class
-}
-
-void Board::layout() {
-    // Layout is handled by Game class
-}
-
-void Board::display() {
-    // Display is handled by Game class
-}

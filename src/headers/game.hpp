@@ -1,41 +1,49 @@
 #pragma once
 
 #include <vector>
+#include <thread>
+#include <chrono>
+#include <iostream>
+#include <memory>
 #include "paddle.hpp"
 #include "ball.hpp"
-#include "board.hpp"
+#include "brick.hpp"
 #include "utils.hpp"
 #include "cursor_input.hpp"
 
 class Game {
 public:
-    int screenWidth;
-    int screenHeight;
-    int life;
-    bool decre_life;
+    Game(int width, int height);
+    ~Game();    // add a destructor to clean up terminal settings
+    void setup();
+    void run();
 
+private:
+    
+    // Core game loop pieces
+    void processInput();
+    void update(float deltaTime);
+    void render();
+    void resetBall();
+    void drawWalls() const;
+    void drawBricks() const;
+    void drawTitle() const;
+    void gameOver();
+
+    // Game objects
     Paddle paddle;
     Ball ball;
-    Board grid;
+    Brick grid;
 
-    // 2D map for rendering/collision
-    std::vector<std::vector<int>> map; // 0 empty, 1 paddle, 2 brick, 5 ball, 7 top, 8 bottom, 9 side
+    // Settings
+    const int width;
+    const int height;
+    int life = 0; 
+    bool running = true;
 
-    Game(int w, int h);
+    // Score 
+    // int score = 0;
 
-    void setup();
-    void layout();
-    void drawWalls();
-    void drawPaddle();
-    void drawBall();
-    void drawBricks();
-
-    void input();
-    void update();
-    void render();
-
-    bool handleBallCollision(int nextX, int nextY);
-    void gameOver();
 };
 
 

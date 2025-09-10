@@ -11,22 +11,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
     src/main.cpp
     src/utils.cpp
-    src/board.cpp
+    src/brick.cpp
     src/game.cpp
     src/ball.cpp
     src/paddle.cpp
     src/color.cpp
     src/cursor_input.cpp
+    src/game_object.cpp
 )
 
 set(HEADERS
     src/headers/game.hpp
     src/headers/utils.hpp
-    src/headers/board.hpp
+    src/headers/brick.hpp
     src/headers/paddle.hpp
     src/headers/ball.hpp
     src/headers/color.hpp
     src/headers/cursor_input.hpp
+    src/headers/game_object.hpp
 )
 
 # Exe
